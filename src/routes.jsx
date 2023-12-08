@@ -1,4 +1,4 @@
-import { Home, SignUp } from "./pages";
+import { Home, SignUp,Profile} from "./pages";
 
 export const routes = [
   {
@@ -6,11 +6,11 @@ export const routes = [
     path: "/",
     element: <Home />,
   },
-  // {
-  //   name: "profile",
-  //   path: "/profile",
-  //   element: <Profile />,
-  // },
+  {
+    name: "profile",
+    path: "/profile",
+    element: <Profile />,
+  },
   {
     name: "Register as a therapist",
     path: "/sign-up",
