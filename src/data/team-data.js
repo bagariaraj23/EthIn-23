@@ -1,6 +1,11 @@
+import team1Url from "../img/team-1.jpg";
+import team2Url from "../img/team-2.jpg";
+import team3Url from "../img/team-3.jpg";
+import team4Url from "../img/team-4.png";
+
 export const teamData = [
   {
-    img: "/img/team-1.jpg",
+    img: `${team1Url}`,
     name: "Ryan Tompson",
     position: "Web Developer",
     socials: [
@@ -19,7 +24,7 @@ export const teamData = [
     ],
   },
   {
-    img: "/img/team-2.jpg",
+    img: `${team2Url}`,
     name: "Romina Hadid",
     position: "Marketing Specialist",
     socials: [
@@ -38,7 +43,7 @@ export const teamData = [
     ],
   },
   {
-    img: "/img/team-3.jpg",
+    img: `${team3Url}`,
     name: "Alexa Smith",
     position: "UI/UX Designer",
     socials: [
@@ -57,7 +62,7 @@ export const teamData = [
     ],
   },
   {
-    img: "/img/team-4.png",
+    img: `${team4Url}`,
     name: "Jenna Kardi",
     position: "Founder and CEO",
     socials: [

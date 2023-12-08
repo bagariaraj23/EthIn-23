@@ -15,6 +15,7 @@ import { PageTitle, Footer } from "../widgets/layout";
 import { FeatureCard, TeamCard } from "../widgets/cards";
 import { featuresData, teamData, contactData } from "../data";
 import backgroundImageUrl from '../img/background-3.png';
+import teamworkUrl from '../img/teamwork.png';
 
 export function Home() {
   return (
@@ -91,7 +92,7 @@ export function Home() {
                 <CardHeader floated={false} className="relative h-56">
                   <img
                     alt="Card Image"
-                    src="/img/teamwork.png"
+                    src={teamworkUrl}
                     className="h-full w-full"
                   />
                 </CardHeader>
