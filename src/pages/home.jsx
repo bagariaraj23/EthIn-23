@@ -14,12 +14,18 @@ import { FingerPrintIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { PageTitle, Footer } from "../widgets/layout";
 import { FeatureCard, TeamCard } from "../widgets/cards";
 import { featuresData, teamData, contactData } from "../data";
+import backgroundImageUrl from '../img/background-3.png';
 
 export function Home() {
   return (
     <>
       <div className="relative flex h-screen content-center items-center justify-center pt-16 pb-32">
-        <div className="absolute top-0 h-full w-full bg-cover bg-center" />
+        <div style={{
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }} className="absolute top-0 h-full w-full bg-cover bg-center " />
         <div className="absolute top-0 h-full w-full bg-black/60 bg-cover bg-center" />
         <div className="max-w-8xl container relative mx-auto">
           <div className="flex flex-wrap items-center">
