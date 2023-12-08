@@ -70,14 +70,11 @@ export function Navbar({ brandName, routes, action }) {
         </Link>
         <div className="hidden lg:block">{navList}</div>
         <div className="hidden gap-2 lg:flex">
-          <a
-            href="https://www.material-tailwind.com/blocks?ref=mtkr"
-            target="_blank"
-          >
+          
             <Button variant="text" size="sm" color="white" fullWidth>
-              pro version
+              connect to wallet
             </Button>
-          </a>
+          
           {React.cloneElement(action, {
             className: "hidden lg:inline-block",
           })}
@@ -108,7 +105,7 @@ export function Navbar({ brandName, routes, action }) {
             className="mb-2 block"
           >
             <Button variant="text" size="sm" fullWidth>
-              pro version
+              connect to wallet
             </Button>
           </a>
           {React.cloneElement(action, {
@@ -127,9 +124,7 @@ Navbar.defaultProps = {
       href="https://www.creative-tim.com/product/material-tailwind-kit-react"
       target="_blank"
     >
-      <Button variant="gradient" size="sm" fullWidth>
-        free download
-      </Button>
+      
     </a>
   ),
 };

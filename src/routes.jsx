@@ -1,23 +1,23 @@
-import { Home, Profile, SignIn, SignUp } from "./pages";
+import { Home, SignUp } from "./pages";
 
 export const routes = [
   {
-    name: "home",
+    name: "Dashboard",
     path: "/",
     element: <Home />,
   },
+  // {
+  //   name: "profile",
+  //   path: "/profile",
+  //   element: <Profile />,
+  // },
   {
-    name: "profile",
-    path: "/profile",
-    element: <Profile />,
+    name: "Register as a therapist",
+    path: "/sign-up",
+    element: <SignUp />,
   },
   {
-    name: "Sign In",
-    path: "/sign-in",
-    element: <SignIn />,
-  },
-  {
-    name: "Sign Up",
+    name: "Find Therapist",
     path: "/sign-up",
     element: <SignUp />,
   },
