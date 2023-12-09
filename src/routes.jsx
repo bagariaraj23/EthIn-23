@@ -1,5 +1,6 @@
 import { Home, SignUp,Profile} from "./pages";
-
+import SpeechRecognitionComponent from "./pages/audiodetection";
+import HuddleCom from "./pages/Huddle";
 export const routes = [
   {
     name: "Dashboard",
@@ -21,6 +22,16 @@ export const routes = [
     path: "/sign-up",
     element: <SignUp />,
   },
+  {
+    name: "speech",
+    path: '/audio',
+    element: <SpeechRecognitionComponent/>
+  },
+  {
+    name: "meeting",
+    path: "/meeting",
+    element: <HuddleCom />
+  }
   
 ];
 
