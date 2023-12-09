@@ -1,5 +1,5 @@
 "use client";
-import { useLocalAudio, useLocalVideo, usePeerIds, useRoom } from '@huddle01/react/hooks';
+import { useLocalAudio, useLocalVideo, usePeerIds, useRoom, useDataMessage } from '@huddle01/react/hooks';
 import React, { useEffect, useRef } from 'react'
 import { AccessToken, Role } from '@huddle01/server-sdk/auth';
 import RemotePeer from '../Components/RemotePeer';
@@ -17,6 +17,14 @@ const getAccessToken = () => {
 const HuddleCom = () => {
     const { enableVideo, disableVideo, isVideoOn, stream: videoStream } = useLocalVideo();
     const { enableAudio,disableAudio, isAudioOn, stream: audioStream} = useLocalAudio();
+    const {patientTranscript, setPatientTranscript} = useState('');
+    const {sendData} = useDataMessage({
+        onMessage(payload, from, label) {
+            setPatientTranscript(payload);
+            console.log("patient Transcript",patientTranscript, from)
+            callDataToGPT(completeTransscript, patientTranscript);
+        },
+      });
     const { joinRoom, state, leaveRoom, closeRoom } = useRoom({
         onJoin: (room) => {
             if (isAudioOn) {
@@ -26,14 +34,19 @@ const HuddleCom = () => {
           onPeerJoin: (peer) => {
             console.log("onPeerJoin", peer);
           },
-          onLeave: (data) => {
+          onPeerLeft: (data) => {
+            console.log("Onleave",data)
             SpeechRecognition.stopListening();
+            if (peerIds.length > 0) {
+                sendData({to:peerIds, payload:completeTransscript})
+            }
 
           }
     });
+
     const videoRef = useRef(null);
     const audioRef = useRef(null);
-    const [completeTransscript, setCompleteTransscript] = useState([]);
+    const [completeTransscript, setCompleteTransscript] = useState('');
     useEffect(() => {
         if (videoStream && videoRef.current) {
           videoRef.current.srcObject = videoStream;
@@ -60,14 +73,13 @@ const HuddleCom = () => {
       const res = SpeechRecognition.getRecognition();
         res.onspeechstart = ()=> {
             let startDateTime = Date.now();
-            console.log('start time', startDateTime)
+            setCompleteTransscript(completeTransscript + " " + startDateTime)
 
         }
         res.onspeechend = () => {
             SpeechRecognition.startListening({language: "en_IN"});
             let endDateTime = Date.now();
-            setCompleteTransscript([...completeTransscript, transcript]);
-            console.log("end Date Time", endDateTime, 'trans', transcript);
+            setCompleteTransscript(completeTransscript + " " + transcript + endDateTime);
         }
 
 
@@ -86,8 +98,12 @@ const HuddleCom = () => {
         if (!listening && state==="connected" && isAudioOn) {
             SpeechRecognition.startListening({language: "en_IN"});
           }
-    }, [listening]);
+    }, [listening]);   
 
+
+    const callDataToGPT = (hostTranscript, patientTranscript) => {
+        console.log(hostTranscript, patientTranscript)
+    }
 
   return (    
     <div className='flex align-content-center justify-center'>
