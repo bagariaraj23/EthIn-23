@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 
 function FeaturedPost(props) {
   const { index,post } = props;
-
   return (
     <Grid item xs={12} md={6}>
       <CardActionArea component="a" href="#">
