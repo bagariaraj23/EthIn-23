@@ -1,4 +1,5 @@
 import { Avatar, Typography, Button } from "@material-tailwind/react";
+import { useParams } from 'react-router-dom';
 import {
   MapPinIcon,
   BriefcaseIcon,
@@ -12,7 +13,12 @@ import profileImage from '../img/team-5.png';
 import backgroundImageUrl from '../img/background-3.png';
 import sendNotif, { sendNotification } from "../Components/SendNotif";
 
+import TherapistData from "../FindTherapist/dummydata";
+
+
 export function Profile() {
+  const { id } = useParams();
+  const data= TherapistData[id];
   const [isScheduling, setIsScheduling] = useState(false);
   const [scheduleErr, setScheduleErr] = useState('');
 
@@ -38,6 +44,7 @@ function timeSlotValidator(slotTime) {
   const isValid = slotTime.getTime() > eveningTime.getTime();
   return isValid;
 }
+
   return (
     <>
       <section className="relative block h-[50vh]">
@@ -55,52 +62,61 @@ function timeSlotValidator(slotTime) {
             <div className="flex flex-row justify-evenly">
             <div className="flex flex-col justify-evenly">
               <div className="relative flex gap-6 items-start">
-                <div className="-mt-20 w-40">
+                <div className="-mt-20 w-40 aspect-square">
                   <Avatar
-                    src={profileImage}
+                    src={data.image}
                     alt="Profile picture"
                     variant="circular"
-                    className="h-full w-full"
+                    className="h-auto w-auto"
+                    sx={{borderRadius: '50%'}}
                   />
                 </div>
                 <div className="flex flex-col mt-2">
                   <Typography variant="h4" color="blue-gray">
-                    Jenna Stones
+                    {data.name}
                   </Typography>
-                  <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">jena@mail.com</Typography>
+                  <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">{data.patients_consulted }+ patients</Typography>
                 </div>
               </div>
               <div className="-mt-4 container space-y-2">
               <div className="flex items-center gap-2">
                 <MapPinIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  Los Angeles, California
+                 {data.clinic_address}
                 </Typography>
               </div>
               <div className="flex items-center gap-2">
                 <BriefcaseIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  Solution Manager - Creative Tim Officer
+                 practicing since {data.experience} years
                 </Typography>
               </div>
               <div className="flex items-center gap-2">
                 <BuildingLibraryIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  University of Computer Science
+                  {data.expertise}
+                </Typography>
+              </div>
+              <div className="flex items-center gap-2">
+                {/* <BuildingLibraryIcon className="-mt-px h-4 w-4 text-blue-gray-500" /> */}
+                <Typography className="font-medium text-blue-gray-500">
+                  {data.about}
+                </Typography>
+              </div>
+              <div className="flex items-center gap-2">
+                {/* <BuildingLibraryIcon className="-mt-px h-4 w-4 text-blue-gray-500" /> */}
+                <Typography className="font-medium text-blue-gray-500">
+                  Consultation Fee : {data.consultation_fee} $
                 </Typography>
               </div>
             </div>
             <div className="mb-10 py-6 lg:w-5/6">
-              <div className="flex w-full flex-col items-start ">
+              {/* <div className="flex w-full flex-col items-start ">
                 <Typography className="mb-6 font-normal text-blue-gray-500">
-                  An artist of considerable range, Jenna the name taken by
-                  Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                  performs and records all of his own music, giving it a
-                  warm, intimate feel with a solid groove structure. An
-                  artist of considerable range.
+              {data.about}
                 </Typography>
-              </div>
-            </div>
+              </div> */}
+    </div>
             </div>
             <div className="flex w-full flex-col justify-evenly">
 

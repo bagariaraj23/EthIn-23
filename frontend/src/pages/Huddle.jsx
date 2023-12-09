@@ -9,7 +9,13 @@ const getAccessToken = () => {
     const accessToken = new AccessToken({
         apiKey:"Snx30DlpGR9GIrR4Cmp3IRGDHETCBLH9",
         roomId: "pov-dmvx-cdm",
-        role:  Role.GUEST
+        role:  Role.GUEST,
+        options: {
+            permission: {
+                canRecvData: true,
+                canSendData: true
+            }
+        }
       });
       return accessToken
 }
@@ -73,7 +79,7 @@ const HuddleCom = () => {
       const res = SpeechRecognition.getRecognition();
         res.onspeechstart = ()=> {
             let startDateTime = Date.now();
-            setCompleteTransscript(completeTransscript + " " + startDateTime)
+            setCompleteTransscript(completeTransscript + " " + transcript + endDateTime + "");
 
         }
         res.onspeechend = () => {
@@ -103,6 +109,13 @@ const HuddleCom = () => {
 
     const callDataToGPT = (hostTranscript, patientTranscript) => {
         console.log(hostTranscript, patientTranscript)
+    }
+
+    const sendDataFunc = () => {
+        SpeechRecognition.stopListening();
+        if (peerIds.length > 0) {
+            sendData({to:peerIds, payload:completeTransscript})
+        }
     }
 
   return (    
@@ -191,6 +204,7 @@ const HuddleCom = () => {
                     await disableAudioFunc();
                 }}>Disable Audio</button>}
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
+                    sendDataFunc();
                     await leaveRoom()
                 }}>Leave Meeting</button>
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
