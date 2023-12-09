@@ -44,7 +44,7 @@ const HuddleCom = () => {
             console.log("Onleave",data)
             SpeechRecognition.stopListening();
             if (peerIds.length > 0) {
-                sendData({to:peerIds, payload:completeTransscript})
+                sendData({to:peerIds, payload:JSON.stringify(completeTransscript)})
             }
 
           }
@@ -79,13 +79,27 @@ const HuddleCom = () => {
       const res = SpeechRecognition.getRecognition();
         res.onspeechstart = ()=> {
             let startDateTime = Date.now();
-            setCompleteTransscript(completeTransscript + startDateTime);
+            console.log(startDateTime);
+            setCompleteTransscript((prevTranscript) => [
+                ...(Array.isArray(prevTranscript) ? prevTranscript : []),
+                { startTime: startDateTime, message: '' },
+              ]);
 
         }
         res.onspeechend = () => {
             SpeechRecognition.startListening({language: "en_IN"});
+            // setCompleteTransscript({ message: transcript})
+            console.log(completeTransscript);
             let endDateTime = Date.now();
-            setCompleteTransscript(completeTransscript + " " + transcript + endDateTime);
+            setCompleteTransscript((prevTranscript) =>
+    Array.isArray(prevTranscript)
+      ? prevTranscript.map((entry, index) =>
+          index === prevTranscript.length - 1
+            ? { ...entry, message: transcript, endTime: endDateTime }
+            : entry
+        )
+      : []
+  );
         }
 
 
@@ -110,11 +124,10 @@ const HuddleCom = () => {
     const callDataToGPT = (hostTranscript, patientTranscript) => {
         console.log(hostTranscript, patientTranscript)
     }
-
     const sendDataFunc = () => {
         SpeechRecognition.stopListening();
         if (peerIds.length > 0) {
-            sendData({to:peerIds, payload:completeTransscript})
+            sendData({to:peerIds, payload:JSON.stringify(completeTransscript)})
         }
     }
 
@@ -204,14 +217,14 @@ const HuddleCom = () => {
                     await disableAudioFunc();
                 }}>Disable Audio</button>}
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
-                    sendDataFunc();
+                    sendDataFunc()
                     await leaveRoom()
                 }}>Leave Meeting</button>
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
                     await closeRoom()
                 }}>End meeting for everyone</button>
             </div>
-            {completeTransscript}
+            {JSON.stringify(completeTransscript.startTime)}/ {completeTransscript.message}
         </div>
         </div>}
     </div>
