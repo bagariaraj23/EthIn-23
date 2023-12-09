@@ -23,7 +23,7 @@ export function Profile() {
   const [scheduleErr, setScheduleErr] = useState('');
 
 const handleScheduled = dateTime => {
-  sendNotification(Patient_Address, dateTime);
+  // sendNotification(Patient_Address, dateTime);
   setIsScheduling(true);
   setScheduleErr('');
   console.log('scheduled: ', dateTime);
