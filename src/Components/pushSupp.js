@@ -1,8 +1,9 @@
 
 import { ChatUIProvider, ChatView } from "@pushprotocol/uiweb";
-import { SupportChat } from '@pushprotocol/uiweb'
+import { SupportChat, ITheme } from '@pushprotocol/uiweb'
 import { useState } from "react";
 import { ethers } from "ethers";
+import './pushSupp.css';
 
 function SupportComp(props) {
     const [signer, setSigner] = useState(null);
@@ -37,16 +38,6 @@ function SupportComp(props) {
 
     return (
         <>
-            <h2>
-                Live chat with pushai.eth, connect your wallet and chat to get sassy
-                response from PushAI.eth
-            </h2>
-            <label>
-                For this demo, You will need Metamask (or equivalent browser injected
-                wallet), you will also need to sign a transaction to see the
-                notifications.
-            </label>
-
             <p />
             <button
                 style={buttonStyle}

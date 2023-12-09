@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Dr. Alice Johnson",
+    "age": 42,
+    "about": "Experienced psychologist specializing in stress management and mindfulness.",
+    "expertise": "Stress Management, Mindfulness",
+    "experience": 15,
+    "patients_consulted": 300,
+    "consultation_fee": 150,
+    "clinic_address": "123 Serenity Street, Wellness Center"
+  },
+  {
+    "name": "Dr. Robert Davis",
+    "age": 35,
+    "about": "Clinical psychologist with a focus on cognitive-behavioral therapy.",
+    "expertise": "Cognitive-Behavioral Therapy",
+    "experience": 10,
+    "patients_consulted": 250,
+    "consultation_fee": 120,
+    "clinic_address": "456 Harmony Avenue, Mental Health Clinic"
+  },
+  {
+    "name": "Dr. Emily Carter",
+    "age": 38,
+    "about": "Licensed counselor specializing in relationship and family therapy.",
+    "expertise": "Relationship Therapy, Family Counseling",
+    "experience": 12,
+    "patients_consulted": 200,
+    "consultation_fee": 130,
+    "clinic_address": "789 Connection Lane, Family Counseling Center"
+  },
+  {
+    "name": "Dr. Michael Smith",
+    "age": 40,
+    "about": "Licensed therapist specializing in trauma recovery and EMDR.",
+    "expertise": "Trauma Recovery, EMDR",
+    "experience": 13,
+    "patients_consulted": 280,
+    "consultation_fee": 140,
+    "clinic_address": "321 Hope Boulevard, Trauma Recovery Center"
+  },
+  {
+    "name": "Dr. Sarah Miller",
+    "age": 36,
+    "about": "Clinical psychologist with expertise in anxiety and mood disorders.",
+    "expertise": "Anxiety Disorders, Mood Disorders",
+    "experience": 11,
+    "patients_consulted": 220,
+    "consultation_fee": 130,
+    "clinic_address": "567 Serene Square, Anxiety & Mood Clinic"
+  },
+  {
+    "name": "Dr. Jonathan Turner",
+    "age": 45,
+    "about": "Experienced marriage counselor helping couples strengthen their relationships.",
+    "expertise": "Marriage Counseling, Relationship Enhancement",
+    "experience": 18,
+    "patients_consulted": 320,
+    "consultation_fee": 160,
+    "clinic_address": "890 Harmony Place, Couples Counseling Center"
+  },
+  {
+    "name": "Dr. Laura Brown",
+    "age": 39,
+    "about": "Licensed psychotherapist specializing in LGBTQ+ mental health support.",
+    "expertise": "LGBTQ+ Mental Health, Identity Exploration",
+    "experience": 14,
+    "patients_consulted": 250,
+    "consultation_fee": 150,
+    "clinic_address": "234 Inclusion Street, LGBTQ+ Wellness Center"
+  },
+  {
+    "name": "Dr. James Turner",
+    "age": 41,
+    "about": "Child and adolescent psychologist focusing on behavioral issues and ADHD.",
+    "expertise": "Child & Adolescent Psychology, ADHD",
+    "experience": 16,
+    "patients_consulted": 180,
+    "consultation_fee": 120,
+    "clinic_address": "876 Youth Avenue, Child Psychology Center"
+  },
+  {
+    "name": "Dr. Megan White",
+    "age": 37,
+    "about": "Licensed addiction counselor with a passion for helping individuals overcome substance abuse.",
+    "expertise": "Addiction Counseling, Substance Abuse",
+    "experience": 12,
+    "patients_consulted": 200,
+    "consultation_fee": 140,
+    "clinic_address": "543 Recovery Lane, Addiction Treatment Center"
+  },
+  {
+    "name": "Dr. Kevin Harris",
+    "age": 43,
+    "about": "Experienced family therapist specializing in systemic approaches.",
+    "expertise": "Family Therapy, Systemic Approaches",
+    "experience": 17,
+    "patients_consulted": 280,
+    "consultation_fee": 150,
+    "clinic_address": "789 Harmony Haven, Family Counseling Center"
+  },
+  {
+    "name": "Dr. Jennifer Clark",
+    "age": 38,
+    "about": "Licensed clinical social worker with a focus on depression and self-esteem.",
+    "expertise": "Depression, Self-Esteem",
+    "experience": 13,
+    "patients_consulted": 240,
+    "consultation_fee": 130,
+    "clinic_address": "456 Confidence Circle, Mental Health Center"
+  },
+  {
+    "name": "Dr. Samuel Rodriguez",
+    "age": 44,
+    "about": "Experienced geriatric psychologist providing support for older adults.",
+    "expertise": "Geriatric Psychology, Aging Issues",
+    "experience": 20,
+    "patients_consulted": 180,
+    "consultation_fee": 160,
+    "clinic_address": "321 Golden Years Avenue, Senior Wellness Center"
+  },
+  {
+    "name": "Dr. Olivia Martinez",
+    "age": 35,
+    "about": "Licensed counselor specializing in grief and loss therapy.",
+    "expertise": "Grief Counseling, Loss Support",
+    "experience": 10,
+    "patients_consulted": 210,
+    "consultation_fee": 120,
+    "clinic_address": "567 Serenity Lane, Grief Support Center"
+  },
+  {
+    "name": "Dr. Benjamin Taylor",
+    "age": 39,
+    "about": "Clinical psychologist with expertise in OCD and anxiety disorders.",
+    "expertise": "OCD, Anxiety Disorders",
+    "experience": 15,
+    "patients_consulted": 260,
+    "consultation_fee": 140,
+    "clinic_address": "890 Obsession Square, Anxiety & OCD Clinic"
+  },
+  {
+    "name": "Dr. Danielle Turner",
+    "age": 42,
+    "about": "Licensed art therapist promoting mental well-being through creative expression.",
+    "expertise": "Art Therapy, Creative Expression",
+    "experience": 14,
+    "patients_consulted": 190,
+    "consultation_fee": 130,
+    "clinic_address": "234 Artistic Avenue, Creative Wellness Center"
+  },
+  {
+    "name": "Dr. Andrew Baker",
+    "age": 40,
+    "about": "Experienced sports psychologist assisting athletes with performance and mental resilience.",
+    "expertise": "Sports Psychology, Performance Enhancement",
+    "experience": 16,
+    "patients_consulted": 220,
+    "consultation_fee": 150,
+    "clinic_address": "876 Victory Lane, Sports Psychology Center"
+  },
+  {
+    "name": "Dr. Sophia Adams",
+    "age": 36,
+    "about": "Licensed neuropsychologist specializing in brain injury and cognitive rehabilitation.",
+    "expertise": "Neuropsychology, Cognitive Rehabilitation",
+    "experience": 11,
+    "patients_consulted": 170,
+    "consultation_fee": 140,
+    "clinic_address": "543 Brain Avenue, Neuro Wellness Center"
+  },
+  {
+    "name": "Dr. Nicholas King",
+    "age": 45,
+    "about": "Clinical therapist with expertise in anger management and conflict resolution.",
+    "expertise": "Anger Management, Conflict Resolution",
+    "experience": 19,
+    "patients_consulted": 250,
+    "consultation_fee": 130,
+    "clinic_address": "789 Harmony Square, Conflict Resolution Center"
+  },
+  {
+    "name": "Dr. Taylor Carter",
+    "age": 38,
+    "about": "Licensed sex therapist providing support for individuals and couples.",
+    "expertise": "Sex Therapy, Intimacy Issues",
+    "experience": 14,
+    "patients_consulted": 200,
+    "consultation_fee": 160,
+    "clinic_address": "456 Intimate Place, Sexuality & Relationship Center"
+  },
+  {
+    "name": "Dr. Jordan White",
+    "age": 41,
+    "about": "Experienced child psychologist specializing in play therapy and developmental issues.",
+    "expertise": "Child Psychology, Play Therapy",
+    "experience": 17,
+    "patients_consulted": 230,
+    "consultation_fee": 120,
+    "clinic_address": "890 Playful Avenue, Child Development Center"
+  },
+  {
+    "name": "Dr. Gabrielle Robinson",
+    "age": 37,
+    "about": "Licensed counselor with expertise in multicultural counseling and diversity issues.",
+    "expertise": "Multicultural Counseling, Diversity Issues",
+    "experience": 12,
+    "patients_consulted": 210,
+    "consultation_fee": 140,
+    "clinic_address": "321 Inclusion Lane, Multicultural Counseling Center"
+  },
+  {
+    "name": "Dr. Ryan Adams",
+    "age": 43,
+    "about": "Clinical psychologist with a focus on personality disorders and individualized therapy.",
+    "expertise": "Personality Disorders, Individualized Therapy",
+    "experience": 15,
+    "patients_consulted": 260,
+    "consultation_fee": 150,
+    "clinic_address": "567 Personality Square, Individual Therapy Center"
+  }
+]
