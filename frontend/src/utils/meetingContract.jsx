@@ -1,4 +1,4 @@
-import abi from "../../ABI/meeting.json"
+import abi from "../../ABI/meeting.json";
 import { ethers } from 'ethers';
 
 // Contract address and ABI on Polygon Mumbai
