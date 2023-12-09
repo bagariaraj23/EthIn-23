@@ -8,7 +8,6 @@ export const routee = [
     path: "/",
     element: <Home />,
   },
-  
   {
     name: "profile",
     path: "/profile/:id",
@@ -34,7 +33,6 @@ export const routee = [
     path: "/meeting",
     element: <HuddleCom />
   }
-  
 ];
 
 export default routee;
