@@ -10,14 +10,14 @@ import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import './profile.css';
 import profileImage from '../img/team-5.png';
 import backgroundImageUrl from '../img/background-3.png';
-
-
-
+import sendNotif, { sendNotification } from "../Components/SendNotif";
 
 export function Profile() {
   const [isScheduling, setIsScheduling] = useState(false);
   const [scheduleErr, setScheduleErr] = useState('');
+
 const handleScheduled = dateTime => {
+  sendNotification(Patient_Address, dateTime);
   setIsScheduling(true);
   setScheduleErr('');
   console.log('scheduled: ', dateTime);
