@@ -27,7 +27,7 @@ Footer.defaultProps = {
   
   copyright: (
     <>
-      Copyright © {year} HealthETH by 0xdevs
+      Copyright © {year} HealETH by 0xdevs
       .
     </>
   ),

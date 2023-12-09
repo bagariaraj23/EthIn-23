@@ -1,15 +1,23 @@
+<<<<<<< Updated upstream:frontend/src/routes.jsx
 import { Home, SignUp,Profile} from "./pages";
 import SpeechRecognitionComponent from "./pages/audiodetection";
 import HuddleCom from "./pages/Huddle";
 export const routes = [
+=======
+
+import { Home, SignUp,Profile} from "./pages";
+import Blog from "./FindTherapist/Blog";
+export const routee = [
+>>>>>>> Stashed changes:src/routes.jsx
   {
-    name: "Dashboard",
+    name: "Home",
     path: "/",
     element: <Home />,
   },
+  
   {
     name: "profile",
-    path: "/profile",
+    path: "/profile/:id",
     element: <Profile />,
   },
   {
@@ -19,8 +27,8 @@ export const routes = [
   },
   {
     name: "Find Therapist",
-    path: "/sign-up",
-    element: <SignUp />,
+    path: "/Therapists",
+    element: <Blog />,
   },
   {
     name: "speech",
@@ -35,4 +43,4 @@ export const routes = [
   
 ];
 
-export default routes;
+export default routee;
