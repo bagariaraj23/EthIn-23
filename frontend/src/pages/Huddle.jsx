@@ -9,13 +9,7 @@ const getAccessToken = () => {
     const accessToken = new AccessToken({
         apiKey:"Snx30DlpGR9GIrR4Cmp3IRGDHETCBLH9",
         roomId: "pov-dmvx-cdm",
-        role:  Role.GUEST,
-        options: {
-            permission: {
-                canRecvData: true,
-                canSendData: true
-            }
-        }
+        role:  Role.GUEST
       });
       return accessToken
 }
@@ -23,10 +17,12 @@ const getAccessToken = () => {
 const HuddleCom = () => {
     const { enableVideo, disableVideo, isVideoOn, stream: videoStream } = useLocalVideo();
     const { enableAudio,disableAudio, isAudioOn, stream: audioStream} = useLocalAudio();
+    const {patientTranscript, setPatientTranscript} = useState('');
     const {sendData} = useDataMessage({
         onMessage(payload, from, label) {
-            let reciverTrans = payload;
-            callDataToGPT(completeTransscript, reciverTrans);
+            setPatientTranscript(payload);
+            console.log("patient Transcript",patientTranscript, from)
+            callDataToGPT(completeTransscript, patientTranscript);
         },
       });
     const { joinRoom, state, leaveRoom, closeRoom } = useRoom({
@@ -34,13 +30,17 @@ const HuddleCom = () => {
             if (isAudioOn) {
                 SpeechRecognition.startListening({language: "en_IN"});
             }
-            else {
-                SpeechRecognition.stopListening();
-
-            }
           },
           onPeerJoin: (peer) => {
             console.log("onPeerJoin", peer);
+          },
+          onPeerLeft: (data) => {
+            console.log("Onleave",data)
+            SpeechRecognition.stopListening();
+            if (peerIds.length > 0) {
+                sendData({to:peerIds, payload:completeTransscript})
+            }
+
           }
     });
 
@@ -79,7 +79,7 @@ const HuddleCom = () => {
         res.onspeechend = () => {
             SpeechRecognition.startListening({language: "en_IN"});
             let endDateTime = Date.now();
-            setCompleteTransscript(completeTransscript + " " + transcript + endDateTime + "");
+            setCompleteTransscript(completeTransscript + " " + transcript + endDateTime);
         }
 
 
@@ -103,14 +103,6 @@ const HuddleCom = () => {
 
     const callDataToGPT = (hostTranscript, patientTranscript) => {
         console.log(hostTranscript, patientTranscript)
-    }
-
-    const sendDataFunc = () => {
-        SpeechRecognition.stopListening();
-        if (peerIds.length > 0) {
-            console.log('called')
-            sendData({to:peerIds, payload:completeTransscript})
-        }
     }
 
   return (    
@@ -199,13 +191,13 @@ const HuddleCom = () => {
                     await disableAudioFunc();
                 }}>Disable Audio</button>}
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
-                    sendDataFunc();
-                    await leaveRoom();
+                    await leaveRoom()
                 }}>Leave Meeting</button>
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
                     await closeRoom()
                 }}>End meeting for everyone</button>
             </div>
+            {completeTransscript}
         </div>
         </div>}
     </div>

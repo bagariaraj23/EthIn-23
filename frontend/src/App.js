@@ -8,6 +8,7 @@ import SupportComp from "./Components/pushSupp";
 import { Navbar } from "../src/widgets/layout/navbar";
 import { HuddleProvider } from '@huddle01/react';
 import { HuddleClient } from '@huddle01/react';
+
 const router12 = createBrowserRouter(routes);
 
 const huddleClient = new HuddleClient({
@@ -18,8 +19,10 @@ function App() {
   return (
     <>
     <HuddleProvider client={huddleClient}>
+    <Navbar brandName="abc" router12 action />
       <SupportComp />
       <RouterProvider router={router12} />
+      {/* <Notif/> */}
       </HuddleProvider>
     </>
   );
