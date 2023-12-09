@@ -10,6 +10,7 @@
     "@huddle01/react": "^1.0.0-alpha.57",
     "@huddle01/server-sdk": "^1.0.0-alpha.25",
     "@material-tailwind/react": "^2.1.5",
+    "@metamask/sdk-react-ui": "^0.14.1",
     "@mooncake-dev/react-day-time-picker": "^1.0.5",
     "@mui/icons-material": "^5.14.19",
     "@mui/material": "^5.14.20",

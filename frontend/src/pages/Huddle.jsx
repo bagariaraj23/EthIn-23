@@ -79,7 +79,7 @@ const HuddleCom = () => {
       const res = SpeechRecognition.getRecognition();
         res.onspeechstart = ()=> {
             let startDateTime = Date.now();
-            setCompleteTransscript(completeTransscript + " " + transcript + endDateTime + "");
+            setCompleteTransscript(completeTransscript + startDateTime);
 
         }
         res.onspeechend = () => {

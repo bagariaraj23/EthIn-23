@@ -6,8 +6,8 @@ import team4Url from "../img/team-4.png";
 export const teamData = [
   {
     img: `${team1Url}`,
-    name: "Ryan Tompson",
-    position: "Web Developer",
+    name: "Carl Rogers",
+    position: "American psychologist",
     socials: [
       {
         color: "light-blue",
@@ -25,8 +25,8 @@ export const teamData = [
   },
   {
     img: `${team2Url}`,
-    name: "Romina Hadid",
-    position: "Marketing Specialist",
+    name: "Virginia Satir",
+    position: "American author and psychotherapist",
     socials: [
       {
         color: "light-blue",
@@ -44,8 +44,8 @@ export const teamData = [
   },
   {
     img: `${team3Url}`,
-    name: "Alexa Smith",
-    position: "UI/UX Designer",
+    name: "Dr. Nisha Khanna",
+    position: "Counseling Psychologist",
     socials: [
       {
         color: "light-blue",
@@ -63,8 +63,8 @@ export const teamData = [
   },
   {
     img: `${team4Url}`,
-    name: "Jenna Kardi",
-    position: "Founder and CEO",
+    name: "B. F. Skinner",
+    position: "American psychologist, behaviorist",
     socials: [
       {
         color: "light-blue",

@@ -7,6 +7,7 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
+import { MetaMaskButton } from "@metamask/sdk-react-ui";
  
 export function Nav() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -101,22 +102,14 @@ export function Nav() {
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
-          href="#"
+          href="/"
           className="mr-4 cursor-pointer py-1.5 font-medium"
         >
-          Material Tailwind
+          Heal-ETH
         </Typography>
         <div className="hidden lg:block">{navList}</div>
         <div className="flex items-center gap-x-1">
-          <Button
-            variant="gradient"
-            size="sm"
-            className="hidden lg:inline-block"
-          >
-            <span>Connect   
-                
-            </span>
-          </Button>
+          <MetaMaskButton theme={"light"} color="white"></MetaMaskButton>
         </div>
         <IconButton
           variant="text"
