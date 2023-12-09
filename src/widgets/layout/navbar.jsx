@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter, Link } from "react-router-dom";
 import {
+  createBrowserRouter,
+} from "react-router-dom";
+import {
   Navbar as MTNavbar,
   MobileNav,
   Typography,
@@ -10,9 +13,8 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
-export function Navbar({ brandName, routes, action }) {
+export function Navbar({ brandName="Your Brand" ,routes ,action}) {
   const [openNav, setOpenNav] = React.useState(false);
-
   React.useEffect(() => {
     window.addEventListener(
       "resize",
@@ -107,16 +109,18 @@ export function Navbar({ brandName, routes, action }) {
 
 Navbar.defaultProps = {
   brandName: "Material Tailwind React",
+  routes: [], // Provide a default empty array
   action: (
     <a
       href="https://www.creative-tim.com/product/material-tailwind-kit-react"
       target="_blank"
       rel="noreferrer"
     >
-      "Get PRO version"
+      Get PRO version
     </a>
   ),
 };
+
 
 Navbar.propTypes = {
   brandName: PropTypes.string,
