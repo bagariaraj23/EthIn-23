@@ -9,13 +9,7 @@ const getAccessToken = () => {
     const accessToken = new AccessToken({
         apiKey:"Snx30DlpGR9GIrR4Cmp3IRGDHETCBLH9",
         roomId: "pov-dmvx-cdm",
-        role:  Role.GUEST,
-        options: {
-            permission: {
-                canRecvData: true,
-                canSendData: true
-            }
-        }
+        role:  Role.GUEST
       });
       return accessToken
 }
@@ -23,12 +17,10 @@ const getAccessToken = () => {
 const HuddleCom = () => {
     const { enableVideo, disableVideo, isVideoOn, stream: videoStream } = useLocalVideo();
     const { enableAudio,disableAudio, isAudioOn, stream: audioStream} = useLocalAudio();
-    const {patientTranscript, setPatientTranscript} = useState('');
     const {sendData} = useDataMessage({
         onMessage(payload, from, label) {
-            setPatientTranscript(payload);
-            console.log("patient Transcript",patientTranscript, from)
-            callDataToGPT(completeTransscript, patientTranscript);
+            console.log("patient Transcript",payload, from)
+            callDataToGPT(completeTransscript, payload);
         },
       });
     const { joinRoom, state, leaveRoom, closeRoom } = useRoom({
@@ -43,10 +35,6 @@ const HuddleCom = () => {
           onPeerLeft: (data) => {
             console.log("Onleave",data)
             SpeechRecognition.stopListening();
-            if (peerIds.length > 0) {
-                sendData({to:peerIds, payload:JSON.stringify(completeTransscript)})
-            }
-
           }
     });
 
@@ -75,11 +63,10 @@ const HuddleCom = () => {
         sound
       } = useSpeechRecognition();
 
-
+    let prevTranscript = { startTime: '', message: '' }
       const res = SpeechRecognition.getRecognition();
         res.onspeechstart = ()=> {
             let startDateTime = Date.now();
-            console.log(startDateTime);
             setCompleteTransscript((prevTranscript) => [
                 ...(Array.isArray(prevTranscript) ? prevTranscript : []),
                 { startTime: startDateTime, message: '' },
@@ -89,13 +76,12 @@ const HuddleCom = () => {
         res.onspeechend = () => {
             SpeechRecognition.startListening({language: "en_IN"});
             // setCompleteTransscript({ message: transcript})
-            console.log(completeTransscript);
             let endDateTime = Date.now();
             setCompleteTransscript((prevTranscript) =>
     Array.isArray(prevTranscript)
       ? prevTranscript.map((entry, index) =>
           index === prevTranscript.length - 1
-            ? { ...entry, message: transcript, endTime: endDateTime }
+            ? { ...entry, message: transcript }
             : entry
         )
       : []
@@ -123,11 +109,16 @@ const HuddleCom = () => {
 
     const callDataToGPT = (hostTranscript, patientTranscript) => {
         console.log(hostTranscript, patientTranscript)
+        const newTherapistArray = hostTranscript.map(obj => ({ ...obj, ["User"]: "Therapist" }));
+        const newPatientArray = JSON.parse(patientTranscript).map(obj => ({ ...obj, ["User"]: "Patient" }));
+        const mergedAndSortedArray = [...newTherapistArray, ...newPatientArray].sort((a, b) => a.startTime - b.startTime);
+        console.log(mergedAndSortedArray);
     }
     const sendDataFunc = () => {
         SpeechRecognition.stopListening();
         if (peerIds.length > 0) {
             sendData({to:peerIds, payload:JSON.stringify(completeTransscript)})
+            console.log("My Transcript:",completeTransscript);
         }
     }
 
