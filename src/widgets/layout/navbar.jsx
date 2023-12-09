@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { BrowserRouter, Link } from "react-router-dom";
 import {
   Navbar as MTNavbar,
   MobileNav,
@@ -22,7 +22,7 @@ export function Navbar({ brandName, routes, action }) {
 
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      {routes.map(({ name, path, icon, href, target }) => (
+      {routes.map(({ name, path, icon }) => (
         <Typography
           key={name}
           as="li"
@@ -30,22 +30,9 @@ export function Navbar({ brandName, routes, action }) {
           color="inherit"
           className="capitalize"
         >
-          {href ? (
-            <a
-              href={href}
-              target={target}
-              className="flex items-center gap-1 p-1 font-bold"
-            >
-              {icon &&
-                React.createElement(icon, {
-                  className: "w-[18px] h-[18px] opacity-75 mr-1",
-                })}
-              {name}
-            </a>
-          ) : (
             <Link
               to={path}
-              target={target}
+              // target={target}
               className="flex items-center gap-1 p-1 font-bold"
             >
               {icon &&
@@ -54,13 +41,13 @@ export function Navbar({ brandName, routes, action }) {
                 })}
               {name}
             </Link>
-          )}
         </Typography>
       ))}
     </ul>
   );
 
   return (
+    <BrowserRouter>
     <MTNavbar color="transparent" className="p-3">
       <div className="container mx-auto flex items-center justify-between text-white">
         <Link to="/">
@@ -70,12 +57,11 @@ export function Navbar({ brandName, routes, action }) {
         </Link>
         <div className="hidden lg:block">{navList}</div>
         <div className="hidden gap-2 lg:flex">
-          
             <Button variant="text" size="sm" color="white" fullWidth>
               connect to wallet
             </Button>
           
-          {React.cloneElement(action, {
+          {action && React.cloneElement(action, {
             className: "hidden lg:inline-block",
           })}
         </div>
@@ -102,6 +88,7 @@ export function Navbar({ brandName, routes, action }) {
           <a
             href="https://www.material-tailwind.com/blocks/react?ref=mtkr"
             target="_blank"
+            rel="noreferrer"
             className="mb-2 block"
           >
             <Button variant="text" size="sm" fullWidth>
@@ -114,6 +101,7 @@ export function Navbar({ brandName, routes, action }) {
         </div>
       </MobileNav>
     </MTNavbar>
+    </BrowserRouter>
   );
 }
 
@@ -123,8 +111,9 @@ Navbar.defaultProps = {
     <a
       href="https://www.creative-tim.com/product/material-tailwind-kit-react"
       target="_blank"
+      rel="noreferrer"
     >
-      
+      "Get PRO version"
     </a>
   ),
 };
@@ -132,7 +121,7 @@ Navbar.defaultProps = {
 Navbar.propTypes = {
   brandName: PropTypes.string,
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  action: PropTypes.node,
+  action: PropTypes.node.isRequired,
 };
 
 Navbar.displayName = "/src/widgets/layout/navbar.jsx";
