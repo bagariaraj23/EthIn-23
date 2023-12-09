@@ -8,15 +8,10 @@ const hre = require("hardhat");
 
 async function main() {
 
-  // Deploy First
-  const MeetingContract = await hre.ethers.getContractFactory('MeetingContract');
-  const meetingContract = await MeetingContract.deploy();
-  await meetingContract.waitForDeployment();
-
   // Deploy Second
-  // const DoctorReviews = await hre.ethers.getContractFactory('DoctorReviews');
-  // const doctorReviews = await DoctorReviews.deploy();
-  // await doctorReviews.waitForDeployment();
+  const DoctorReviews = await hre.ethers.getContractFactory('DoctorReviews');
+  const doctorReviews = await DoctorReviews.deploy();
+  await doctorReviews.waitForDeployment();
 
 }
 

@@ -1,5 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("@nomicfoundation/hardhat-waffle");
+// require("@nomicfoundation/hardhat-waffle");
 require("dotenv").config();
 
 const { POLYGON_API_URL, PRIVATE_KEY } = process.env;
