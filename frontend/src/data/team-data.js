@@ -1,7 +1,7 @@
-import team1Url from "../img/team-1.jpg";
-import team2Url from "../img/team-2.jpg";
-import team3Url from "../img/team-3.jpg";
-import team4Url from "../img/team-4.png";
+import team1Url from "../img/carl.jpeg";
+import team3Url from "../img/nishaKhanna.jpeg";
+import team4Url from "../img/skinner.webp";
+import team2Url from "../img/virginia.jpeg";
 
 export const teamData = [
   {

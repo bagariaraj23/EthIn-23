@@ -22,18 +22,18 @@ function Notif() {
         };
 
         notifications()
-        connectToMetamask()
+        // connectToMetamask()
     }, []);
 
 
-    async function connectToMetamask() {
-        try {
-            console.log("Signed in as", await signer.getAddress())
-        } catch (err) {
-            console.log("Not Signed In");
-            await provider.send("eth_requestAccounts", []);
-        }
-    }
+    // async function connectToMetamask() {
+    //     try {
+    //         console.log("Signed in as", await signer.getAddress())
+    //     } catch (err) {
+    //         console.log("Not Signed In");
+    //         await provider.send("eth_requestAccounts", []);
+    //     }
+    // }
 
     const optInChannel = async () => {
         await PushSDK.channels.subscribe({
