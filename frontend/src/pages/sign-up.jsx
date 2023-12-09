@@ -6,6 +6,7 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import patternimg from "../img/pattern.png" 
 
 
 export function SignUp() {
@@ -13,7 +14,7 @@ export function SignUp() {
     <section className="m-8 flex">
             <div className="w-2/5 h-full hidden lg:block">
         <img
-          src="/img/pattern.png"
+          src={patternimg}
           className="h-full w-full object-cover rounded-3xl"
         />
       </div>
