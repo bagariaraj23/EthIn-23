@@ -60,6 +60,10 @@ const HuddleCom = () => {
         if (audioStream && audioRef.current) {
             audioRef.current.srcObject = audioStream;
         }
+        return () => {
+            videoRef.current = null;
+            audioRef.current = null;
+        }
       }, [videoStream, audioStream, videoRef, audioRef]);
     const { peerIds } = usePeerIds();
 
@@ -216,7 +220,7 @@ const HuddleCom = () => {
             {!isVideoOn && <button className='align-middle mx-4 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-gray-900 w-fit' onClick={async() => {
                 await enableVideo();
             }}><VideocamIcon/></button>}
-            {isVideoOn && <button className='align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-gray-900 w-fit' onClick={async() => {
+            {isVideoOn && <button className='align-middle mx-4 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-gray-900 w-fit' onClick={async() => {
                 await disableVideo();
             }}><VideocamOffIcon/></button>}
 
