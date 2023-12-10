@@ -7,6 +7,22 @@
     width: 100%;
     left: 0px;
 }
+.active-button-container{
+    position: absolute;
+    bottom: 80px;
+    width: 100%;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+}
+.active-button-container-2{
+    position: absolute;
+    bottom: -10px;
+    width: 100%;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+}
 /* Define variables */
 :root {
     --primary: #222222;
