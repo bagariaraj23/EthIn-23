@@ -9,23 +9,17 @@ import { Footer } from "../widgets/layout";
 import React, { useState } from 'react';
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import './profile.css';
-// import profileImage from '../img/team-5.png';
 import backgroundImageUrl from '../img/background-3.png';
-import sendNotif, { sendNotification } from "../Components/SendNotif";
-
-// import { Connection } from "../Connection";
+import { sendNotification } from "../Components/SendNotif";
 import TherapistData from "../FindTherapist/dummydata";
-import { create } from "@pushprotocol/restapi/src/lib/space";
 import Web3 from 'web3';
- import ABI from '../ABI/meetingContractABI.json'
+import ABI from '../ABI/meetingContractABI.json'
 
 
 export function Profile() {
   const web3 = new Web3(window.ethereum);
-
-// console.log(ABI.abi);
-const contract = new web3.eth.Contract(ABI.abi, "0x20E329CcCe23f2bDf6FdE58844E4DdCD297B4145"); 
-console.log(contract.methods);
+  const contract = new web3.eth.Contract(ABI.abi, "0x20E329CcCe23f2bDf6FdE58844E4DdCD297B4145"); 
+  console.log(contract.methods);
   const [userAddress, setUserAddress] = useState(null);
 
   React.useEffect(() => {
@@ -65,16 +59,15 @@ console.log(contract.methods);
 
 const handleScheduled = async (dateTime) => {
   let roomId = await createRoom();
-  // console.log(roomId)
-  // console.log(ABI.abi)
-  
-  sendNotification(userAddress, dateTime);
+  sendNotification(userAddress, dateTime,roomId);
+  console.log(roomId);
+
   setIsScheduling(true);
   setScheduleErr('');
   console.log('scheduled: ', dateTime);
   const unixTimestamp = dateTime.getTime();
   console.log('scheduled: ', unixTimestamp);
-  // contract.methods.scheduleMeeting("0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28", userAddress, unixTimestamp, 10000000000000000000000, roomId).call();
+  contract.methods.scheduleMeeting("0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28", userAddress, unixTimestamp, 10000000000000000000000, roomId).call();
 contract.methods.scheduleMeeting("0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28", userAddress, unixTimestamp, amountInWei, roomId)
   .send({ from: userAddress, value: amountInWei })
   .then((result) => {

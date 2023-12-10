@@ -6,10 +6,10 @@ import RemotePeer from '../Components/RemotePeer';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useState } from 'react';
 import OpenAI from 'openai';
-const openai = new OpenAI({apiKey: process.env.REACT_OPENAI_PRIVATE_API_KEY, dangerouslyAllowBrowser: true});
+const openai = new OpenAI({apiKey: process.env.REACT_APP_OPENAI_PRIVATE_API_KEY, dangerouslyAllowBrowser: true});
 const getAccessToken = () => {
     const accessToken = new AccessToken({
-        apiKey: process.env.REACT_HUDDLE_PRIVATE_API_KEY,
+        apiKey: process.env.REACT_API_HUDDLE_PRIVATE_API_KEY,
         roomId: "pov-dmvx-cdm",
         role:  Role.GUEST
       });
