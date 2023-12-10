@@ -9,7 +9,7 @@ import { HuddleProvider, HuddleClient } from '@huddle01/react';
 const router12 = createBrowserRouter(routes);
 
 const huddleClient = new HuddleClient({
-  projectId: process.env.REACT_HUDDLE_PRIVATE_PROJECT_ID,
+  projectId: process.env.REACT_APP_HUDDLE_PRIVATE_PROJECT_ID,
 });
 
 function App() {

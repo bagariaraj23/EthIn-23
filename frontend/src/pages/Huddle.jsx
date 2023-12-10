@@ -7,10 +7,15 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { useState } from 'react';
 import OpenAI from 'openai';
 import { useParams } from 'react-router-dom';
-const openai = new OpenAI({apiKey: process.env.REACT_OPENAI_PRIVATE_API_KEY, dangerouslyAllowBrowser: true});
+import VideocamIcon from '@mui/icons-material/Videocam';
+import MicIcon from '@mui/icons-material/Mic';
+import MicOffIcon from '@mui/icons-material/MicOff';
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import './huddle.css'
+const openai = new OpenAI({apiKey: process.env.REACT_APP_OPENAI_PRIVATE_API_KEY, dangerouslyAllowBrowser: true});
 const getAccessToken = (meetingLink) => {
     const accessToken = new AccessToken({
-        apiKey: process.env.REACT_HUDDLE_PRIVATE_API_KEY,
+        apiKey: process.env.REACT_APP_HUDDLE_PRIVATE_API_KEY,
         roomId: meetingLink,
         role:  Role.GUEST
       });
@@ -124,21 +129,6 @@ const HuddleCom = () => {
           console.log(completion.choices[0].message.content);
           reportGenerated = completion.choices[0];
           console.log("Report: ",reportGenerated);
-        // const inputData = {
-        //     input: mergedAndSortedArray,
-        //     steps: [
-        //         {
-        //             skill: "summarize"
-        //         }
-        //     ]
-        //   };
-        //   fetch("https://api.oneai.com/api/v0/pipeline", {method:"POST", headers: {
-        //     "Content-Type": "application/json",
-        //     "api-key": "437f77b0-2e4b-4597-8e20-a87ffaf10762"
-        //   },body: JSON.stringify(inputData)})
-        //   .then(response => response.text())
-        //   .then(result => console.log("Ai Result:",result))
-        //   .catch(error => console.log('error', error));
     }
 
     const sendDataFunc = () => {
@@ -151,13 +141,13 @@ const HuddleCom = () => {
 
   return (    
     <div className='flex align-content-center justify-center'>
-        {state==="idle" &&<div className="w-[600px]">
-          <div className='w-full mx-auto border-2 rounded-xl border-blue-400 h-[50vh] bg-black'>
+        {state==="idle" &&<div className="w-full p-6 px-20">
+          <div className='w-full mx-auto rounded-xl  h-[80vh] position-absolute bg-black video-container'>
         {isVideoOn ? (
             <>
           <video
             ref={videoRef}
-            className="w-full h-full"
+            className="w-full h-full aspect-square"
             autoPlay
             muted
           />
@@ -167,28 +157,29 @@ const HuddleCom = () => {
           </>
         ) : (<div className='h-full w-full'></div>)}
         </div>
-        <div className='flex align-content-center justify-center my-2'>
-            {!isVideoOn && <button className='p-3 bg-blue-600 text-slate-50' onClick={async() => {
+        <div className='flex align-content-center flex-col justify-center'>
+            <div className='flex align-content-center justify-center my-4 button-container'>
+            {!isVideoOn && <button className='align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-gray-900 w-fit' onClick={async() => {
                 await enableVideo();
-            }}>Enable Video</button>}
-            {isVideoOn && <button className='p-3 bg-red-600 text-slate-50' onClick={async() => {
+            }}><VideocamIcon/></button>}
+            {isVideoOn && <button className='align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-gray-900 w-fit ' onClick={async() => {
                 await disableVideo();
-            }}>Disable Video</button>}
+            }}><VideocamOffIcon/></button>}
 
             <div className='ml-5'>
-                {!isAudioOn && <button className='p-3 bg-blue-600 text-slate-50' onClick={async() => {
+                {!isAudioOn && <button className='align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-gray-900 w-fit lg:ml-auto' onClick={async() => {
                     await enableAudio();
-                }}>Enable Audio</button>}
-                {isAudioOn && <button className='p-3 bg-red-600 text-slate-50' onClick={async() => {
+                }}><MicIcon/></button>}
+                {isAudioOn && <button className='align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-gray-900 w-fit lg:ml-auto' onClick={async() => {
                     await disableAudio();
-                }}>Disable Audio</button>}
+                }}><MicOffIcon/></button>}
             </div>
         </div>
-        <div className='mt-2'>
-        <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required/>
+        <div className='form__group field mt-2'>
+        <input type="text" id="first_name" className="form__field bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark: dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500" placeholder="John" label="Enter Name Here" required/>
         </div>
         <div className='flex justify-center mt-2'>
-            <button className='bg-blue-600 text-slate-50 p-3' onClick={async () => {
+            <button className='align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-gray-900 w-fit ' onClick={async () => {
                 let callToken = getAccessToken(meetingLink);
                 let token = await callToken.toJwt();
               await joinRoom({
@@ -198,9 +189,10 @@ const HuddleCom = () => {
               SpeechRecognition.startListening({language: "en_IN"});
 
             }}>Join Meeting </button>
-        </div>
+        </div></div>
+        
       </div>}
-      {state==="connected" && <div className='w-[1200px] h-full'>
+      {state==="connected" && <div className='w-full p-6 px-20 video-container'>
         <div className='bg-black'>
             {peerIds.length > 0 ? peerIds.map((peerId) =>
             peerId ? <RemotePeer key={peerId} peerId={peerId} /> : null
@@ -210,7 +202,7 @@ const HuddleCom = () => {
                         ref={videoRef}
                         autoPlay
                         muted
-                        className="border-2 rounded-xl border-white-400 aspect-video w-full h-full"
+                        className="border-2 rounded-xl border-white-400 aspect-square w-full h-full"
                     />
                     <audio
                         ref={audioRef}
@@ -219,21 +211,21 @@ const HuddleCom = () => {
                     </div>
             </div>}
         </div>
-        <div className='flex align-content-center justify-center my-2'>
+        <div className='flex align-content-center justify-center my-4 button-container'>
             {!isVideoOn && <button className='p-3 bg-blue-600 text-slate-50' onClick={async() => {
                 await enableVideo();
-            }}>Enable Video</button>}
+            }}><VideocamIcon/></button>}
             {isVideoOn && <button className='p-3 bg-red-600 text-slate-50' onClick={async() => {
                 await disableVideo();
-            }}>Disable Video</button>}
+            }}><VideocamOffIcon/></button>}
 
             <div className='ml-5'>
                 {!isAudioOn && <button className='p-3 bg-blue-600 text-slate-50' onClick={async() => {
                     await enableAudioFunc();
-                }}>Enable Audio</button>}
+                }}><MicIcon/></button>}
                 {isAudioOn && <button className='p-3 bg-red-600 text-slate-50' onClick={async() => {
                     await disableAudioFunc();
-                }}>Disable Audio</button>}
+                }}><MicOffIcon/></button>}
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
                     sendDataFunc()
                     await leaveRoom()
