@@ -13,7 +13,7 @@ import './profile.css';
 import backgroundImageUrl from '../img/background-3.png';
 import sendNotif, { sendNotification } from "../Components/SendNotif";
 
-import { Connection } from "../Connection";
+// import { Connection } from "../Connection";
 import TherapistData from "../FindTherapist/dummydata";
 import { create } from "@pushprotocol/restapi/src/lib/space";
 import Web3 from 'web3';
