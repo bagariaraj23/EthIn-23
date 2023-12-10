@@ -5,24 +5,28 @@ import { AccessToken, Role } from '@huddle01/server-sdk/auth';
 import RemotePeer from '../Components/RemotePeer';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useState } from 'react';
+import OpenAI from 'openai';
+const openai = new OpenAI({apiKey: process.env.REACT_OPENAI_PRIVATE_API_KEY, dangerouslyAllowBrowser: true});
 const getAccessToken = () => {
     const accessToken = new AccessToken({
-        apiKey:"Snx30DlpGR9GIrR4Cmp3IRGDHETCBLH9",
+        apiKey: process.env.REACT_HUDDLE_PRIVATE_API_KEY,
         roomId: "pov-dmvx-cdm",
         role:  Role.GUEST
       });
       return accessToken
 }
-
+let reportGenerated;
 const HuddleCom = () => {
     const { enableVideo, disableVideo, isVideoOn, stream: videoStream } = useLocalVideo();
     const { enableAudio,disableAudio, isAudioOn, stream: audioStream} = useLocalAudio();
+
     const {sendData} = useDataMessage({
         onMessage(payload, from, label) {
             console.log("patient Transcript",payload, from)
             callDataToGPT(completeTransscript, payload);
         },
       });
+      
     const { joinRoom, state, leaveRoom, closeRoom } = useRoom({
         onJoin: (room) => {
             if (isAudioOn) {
@@ -106,28 +110,38 @@ const HuddleCom = () => {
     }, [listening]);   
 
 
-    const callDataToGPT = (hostTranscript, patientTranscript) => {
+    const callDataToGPT = async(hostTranscript, patientTranscript) => {
         console.log(hostTranscript, patientTranscript)
         const newTherapistArray = hostTranscript.map(obj => ({ ...obj, ["User"]: "Therapist" }));
         const newPatientArray = JSON.parse(patientTranscript).map(obj => ({ ...obj, ["User"]: "Patient" }));
         const mergedAndSortedArray = [...newTherapistArray, ...newPatientArray].sort((a, b) => a.startTime - b.startTime);
         console.log(mergedAndSortedArray);
-        const inputData = {
-            input: mergedAndSortedArray,
-            steps: [
-                {
-                    skill: "summarize"
-                }
-            ]
-          };
-          fetch("https://api.oneai.com/api/v0/pipeline", {method:"POST", headers: {
-            "Content-Type": "application/json",
-            "api-key": "437f77b0-2e4b-4597-8e20-a87ffaf10762"
-          },body: JSON.stringify(inputData)})
-          .then(response => response.text())
-          .then(result => console.log("Ai Result:",result))
-          .catch(error => console.log('error', error));
+
+        const completion = await openai.chat.completions.create({
+            messages: [{"role": "system", "content": "You are a helpful assistant. You will be Provided with an array of statement objects which will represent a conversation between a therapist and mental health patient . Please Provide a summarized report based on the conversation. "},
+                {"role": "user", "content": JSON.stringify(mergedAndSortedArray)}],
+            model: "gpt-3.5-turbo",
+          });
+          console.log(completion.choices[0].message.content);
+          reportGenerated = completion.choices[0];
+          console.log("Report: ",reportGenerated);
+        // const inputData = {
+        //     input: mergedAndSortedArray,
+        //     steps: [
+        //         {
+        //             skill: "summarize"
+        //         }
+        //     ]
+        //   };
+        //   fetch("https://api.oneai.com/api/v0/pipeline", {method:"POST", headers: {
+        //     "Content-Type": "application/json",
+        //     "api-key": "437f77b0-2e4b-4597-8e20-a87ffaf10762"
+        //   },body: JSON.stringify(inputData)})
+        //   .then(response => response.text())
+        //   .then(result => console.log("Ai Result:",result))
+        //   .catch(error => console.log('error', error));
     }
+
     const sendDataFunc = () => {
         SpeechRecognition.stopListening();
         if (peerIds.length > 0) {
@@ -223,14 +237,20 @@ const HuddleCom = () => {
                 }}>Disable Audio</button>}
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
                     sendDataFunc()
+                    callDataToGPT()
                     await leaveRoom()
                 }}>Leave Meeting</button>
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
                     await closeRoom()
                 }}>End meeting for everyone</button>
+                
             </div>
-            {JSON.stringify(completeTransscript.startTime)}/ {completeTransscript.message}
+            
+           
         </div>
+        <div className='flex m-10 p-8'>
+                <p>Report:<span>{reportGenerated.message.content}</span></p>
+                </div>
         </div>}
     </div>
   )
