@@ -13,7 +13,7 @@ const sendNotification = async (Patient_Address, time_slot, roomId) => {
             title: "Therapy Scheduled",
             body: `Your therapy session has been booked for the time slot: ${time_slot}. Please be sure to be on time. Thank you !!`,
             payload: {
-                url: url
+                cta: url
             }
         }
     });

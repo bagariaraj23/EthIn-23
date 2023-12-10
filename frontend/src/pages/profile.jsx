@@ -47,7 +47,7 @@ export function Profile() {
         }),
         headers: {
             "Content-type": "application/json",
-            'x-api-key': process.env.REACT_APP_API_KEY,
+            'x-api-key': process.env.REACT_APP_HUDDLE_API_KEY,
         },
     };
     const url = "https://api.huddle01.com/api/v1/create-room";
@@ -67,8 +67,8 @@ const handleScheduled = async (dateTime) => {
   console.log('scheduled: ', dateTime);
   const unixTimestamp = dateTime.getTime();
   console.log('scheduled: ', unixTimestamp);
-  contract.methods.scheduleMeeting("0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28", userAddress, unixTimestamp, 10000000000000000000000, roomId).call();
-contract.methods.scheduleMeeting("0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28", userAddress, unixTimestamp, amountInWei, roomId)
+  
+  contract.methods.scheduleMeeting("0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28", userAddress, unixTimestamp, amountInWei, roomId)
   .send({ from: userAddress, value: amountInWei })
   .then((result) => {
     console.log("Transaction successful:", result);

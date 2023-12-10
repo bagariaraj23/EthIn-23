@@ -43,7 +43,7 @@ function SupportComp(props) {
                 style={buttonStyle}
                 onClick={signer ? disconnectWallet : connectWallet}
             >
-                {signer ? "Disconnect wallet" : "Connect Wallet"}
+                {signer ? "Remove Support Bot" : "Access SupportBot"}
             </button>
 
             <div style={{ margin: "20px auto" }}>
@@ -55,10 +55,10 @@ function SupportComp(props) {
                             env="staging" // can be "prod" or "staging"
                         />
 
-                        <h2>
+                        {/* <h2>
                             Signer obtained, you will be seeing a pink colored Push Chat icon
                             on the bottom right, click to interact.
-                        </h2>
+                        </h2> */}
                     </>
                 )}
             </div>
