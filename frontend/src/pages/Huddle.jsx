@@ -6,17 +6,20 @@ import RemotePeer from '../Components/RemotePeer';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useState } from 'react';
 import OpenAI from 'openai';
+import { useParams } from 'react-router-dom';
 const openai = new OpenAI({apiKey: process.env.REACT_OPENAI_PRIVATE_API_KEY, dangerouslyAllowBrowser: true});
-const getAccessToken = () => {
+const getAccessToken = (meetingLink) => {
     const accessToken = new AccessToken({
         apiKey: process.env.REACT_HUDDLE_PRIVATE_API_KEY,
-        roomId: "pov-dmvx-cdm",
+        roomId: meetingLink,
         role:  Role.GUEST
       });
       return accessToken
 }
 let reportGenerated;
 const HuddleCom = () => {
+    const { meetingLink } = useParams();
+
     const { enableVideo, disableVideo, isVideoOn, stream: videoStream } = useLocalVideo();
     const { enableAudio,disableAudio, isAudioOn, stream: audioStream} = useLocalAudio();
 
@@ -52,11 +55,7 @@ const HuddleCom = () => {
         if (audioStream && audioRef.current) {
             audioRef.current.srcObject = audioStream;
         }
-        return () => {
-            videoRef.current = null;
-            audioRef.current = null;
-        }
-      }, []);
+      }, [videoStream, audioStream, videoRef, audioRef]);
     const { peerIds } = usePeerIds();
 
     const {
@@ -190,10 +189,10 @@ const HuddleCom = () => {
         </div>
         <div className='flex justify-center mt-2'>
             <button className='bg-blue-600 text-slate-50 p-3' onClick={async () => {
-                let callToken = getAccessToken();
+                let callToken = getAccessToken(meetingLink);
                 let token = await callToken.toJwt();
               await joinRoom({
-                roomId: "pov-dmvx-cdm",
+                roomId: meetingLink,
                 token: token,
               });
               SpeechRecognition.startListening({language: "en_IN"});
@@ -237,7 +236,6 @@ const HuddleCom = () => {
                 }}>Disable Audio</button>}
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
                     sendDataFunc()
-                    callDataToGPT()
                     await leaveRoom()
                 }}>Leave Meeting</button>
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
