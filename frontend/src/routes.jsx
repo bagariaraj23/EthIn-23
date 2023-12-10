@@ -1,15 +1,17 @@
 import { Home, SignUp,Profile} from "./pages";
+import Dashboard from "../src/Dashboard/Dashboard"
 import SpeechRecognitionComponent from "./pages/audiodetection";
 import HuddleCom from "./pages/Huddle";
-export const routes = [
+import Blog from "./FindTherapist/Blog";
+export const routee = [
   {
-    name: "Dashboard",
+    name: "Home",
     path: "/",
     element: <Home />,
   },
   {
     name: "profile",
-    path: "/profile",
+    path: "/profile/:id",
     element: <Profile />,
   },
   {
@@ -19,8 +21,8 @@ export const routes = [
   },
   {
     name: "Find Therapist",
-    path: "/sign-up",
-    element: <SignUp />,
+    path: "/Therapists",
+    element: <Blog />,
   },
   {
     name: "speech",
@@ -32,7 +34,6 @@ export const routes = [
     path: "/meeting",
     element: <HuddleCom />
   }
-  
 ];
 
-export default routes;
+export default routee;

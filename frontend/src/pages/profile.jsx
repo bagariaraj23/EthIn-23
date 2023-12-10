@@ -9,25 +9,84 @@ import { Footer } from "../widgets/layout";
 import React, { useState } from 'react';
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import './profile.css';
-import profileImage from '../img/team-5.png';
+// import profileImage from '../img/team-5.png';
 import backgroundImageUrl from '../img/background-3.png';
 import sendNotif, { sendNotification } from "../Components/SendNotif";
 
+<<<<<<< HEAD
 import TherapistData from "../FindTherapist/dummydata";
 
 
 export function Profile() {
+=======
+// import { Connection } from "../Connection";
+import TherapistData from "../FindTherapist/dummydata";
+import { create } from "@pushprotocol/restapi/src/lib/space";
+import Web3 from 'web3';
+ import ABI from '../ABI/meetingContractABI.json'
+
+
+export function Profile() {
+  const web3 = new Web3(window.ethereum);
+
+// console.log(ABI.abi);
+const contract = new web3.eth.Contract(ABI.abi, "0x20E329CcCe23f2bDf6FdE58844E4DdCD297B4145"); 
+console.log(contract.methods);
+  const [userAddress, setUserAddress] = useState(null);
+
+  React.useEffect(() => {
+    // Check if ethereum is available
+    if (window.ethereum) {
+      // Get the current user's address
+      window.ethereum.request({ method: "eth_requestAccounts" })
+        .then((accounts) => setUserAddress(accounts[0]))
+        .catch((error) => console.error(error));
+    }
+  }, []);
+
+>>>>>>> origin/main
   const { id } = useParams();
   const data= TherapistData[id];
   const [isScheduling, setIsScheduling] = useState(false);
   const [scheduleErr, setScheduleErr] = useState('');
+<<<<<<< HEAD
 
 const handleScheduled = dateTime => {
   // sendNotification(Patient_Address, dateTime);
+=======
+  const amountInWei = web3.utils.toWei('0.01', 'ether');
+
+ const createRoom = async () => {
+    const requestOptions = {
+        method: "POST",
+        body: JSON.stringify({
+            title: "Therapy Session",
+            hostWallets: ['0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28']
+        }),
+        headers: {
+            "Content-type": "application/json",
+            'x-api-key': process.env.REACT_APP_API_KEY,
+        },
+    };
+    const url = "https://api.huddle01.com/api/v1/create-room";
+    const response = await fetch(url, requestOptions);
+    const jsonResponse = await response.json();
+    
+    return jsonResponse.data.roomId;;
+};
+
+const handleScheduled = async (dateTime) => {
+  let roomId = await createRoom();
+  // console.log(roomId)
+  // console.log(ABI.abi)
+  
+  sendNotification(userAddress, dateTime);
+>>>>>>> origin/main
   setIsScheduling(true);
   setScheduleErr('');
   console.log('scheduled: ', dateTime);
   const unixTimestamp = dateTime.getTime();
+<<<<<<< HEAD
 
 
 
@@ -46,6 +105,20 @@ const scheduleMeeting = () => {
   
 
 }
+=======
+  console.log('scheduled: ', unixTimestamp);
+  // contract.methods.scheduleMeeting("0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28", userAddress, unixTimestamp, 10000000000000000000000, roomId).call();
+contract.methods.scheduleMeeting("0x27E15D26Faf9e1C6aA72d87fc743dbfe6eea0E28", userAddress, unixTimestamp, amountInWei, roomId)
+  .send({ from: userAddress, value: amountInWei })
+  .then((result) => {
+    console.log("Transaction successful:", result);
+  })
+  .catch((error) => {
+    console.error("Transaction failed:", error);
+  });
+};
+
+>>>>>>> origin/main
 
 function timeSlotValidator(slotTime) {
   const eveningTime = new Date(

@@ -5,26 +5,31 @@ import { AccessToken, Role } from '@huddle01/server-sdk/auth';
 import RemotePeer from '../Components/RemotePeer';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useState } from 'react';
-const getAccessToken = () => {
+import OpenAI from 'openai';
+import { useParams } from 'react-router-dom';
+const openai = new OpenAI({apiKey: process.env.REACT_OPENAI_PRIVATE_API_KEY, dangerouslyAllowBrowser: true});
+const getAccessToken = (meetingLink) => {
     const accessToken = new AccessToken({
-        apiKey:"Snx30DlpGR9GIrR4Cmp3IRGDHETCBLH9",
-        roomId: "pov-dmvx-cdm",
+        apiKey: process.env.REACT_HUDDLE_PRIVATE_API_KEY,
+        roomId: meetingLink,
         role:  Role.GUEST
       });
       return accessToken
 }
-
+let reportGenerated;
 const HuddleCom = () => {
+    const { meetingLink } = useParams();
+
     const { enableVideo, disableVideo, isVideoOn, stream: videoStream } = useLocalVideo();
     const { enableAudio,disableAudio, isAudioOn, stream: audioStream} = useLocalAudio();
-    const {patientTranscript, setPatientTranscript} = useState('');
+
     const {sendData} = useDataMessage({
         onMessage(payload, from, label) {
-            setPatientTranscript(payload);
-            console.log("patient Transcript",patientTranscript, from)
-            callDataToGPT(completeTransscript, patientTranscript);
+            console.log("patient Transcript",payload, from)
+            callDataToGPT(completeTransscript, payload);
         },
       });
+      
     const { joinRoom, state, leaveRoom, closeRoom } = useRoom({
         onJoin: (room) => {
             if (isAudioOn) {
@@ -37,10 +42,6 @@ const HuddleCom = () => {
           onPeerLeft: (data) => {
             console.log("Onleave",data)
             SpeechRecognition.stopListening();
-            if (peerIds.length > 0) {
-                sendData({to:peerIds, payload:completeTransscript})
-            }
-
           }
     });
 
@@ -54,11 +55,7 @@ const HuddleCom = () => {
         if (audioStream && audioRef.current) {
             audioRef.current.srcObject = audioStream;
         }
-        return () => {
-            videoRef.current = null;
-            audioRef.current = null;
-        }
-      }, []);
+      }, [videoStream, audioStream, videoRef, audioRef]);
     const { peerIds } = usePeerIds();
 
     const {
@@ -69,17 +66,28 @@ const HuddleCom = () => {
         sound
       } = useSpeechRecognition();
 
-
       const res = SpeechRecognition.getRecognition();
         res.onspeechstart = ()=> {
             let startDateTime = Date.now();
-            setCompleteTransscript(completeTransscript + " " + startDateTime)
+            setCompleteTransscript((prevTranscript) => [
+                ...(Array.isArray(prevTranscript) ? prevTranscript : []),
+                { startTime: startDateTime, message: '' },
+              ]);
 
         }
         res.onspeechend = () => {
             SpeechRecognition.startListening({language: "en_IN"});
+            // setCompleteTransscript({ message: transcript})
             let endDateTime = Date.now();
-            setCompleteTransscript(completeTransscript + " " + transcript + endDateTime);
+            setCompleteTransscript((prevTranscript) =>
+    Array.isArray(prevTranscript)
+      ? prevTranscript.map((entry, index) =>
+          index === prevTranscript.length - 1
+            ? { ...entry, message: transcript }
+            : entry
+        )
+      : []
+  );
         }
 
 
@@ -101,8 +109,44 @@ const HuddleCom = () => {
     }, [listening]);   
 
 
-    const callDataToGPT = (hostTranscript, patientTranscript) => {
+    const callDataToGPT = async(hostTranscript, patientTranscript) => {
         console.log(hostTranscript, patientTranscript)
+        const newTherapistArray = hostTranscript.map(obj => ({ ...obj, ["User"]: "Therapist" }));
+        const newPatientArray = JSON.parse(patientTranscript).map(obj => ({ ...obj, ["User"]: "Patient" }));
+        const mergedAndSortedArray = [...newTherapistArray, ...newPatientArray].sort((a, b) => a.startTime - b.startTime);
+        console.log(mergedAndSortedArray);
+
+        const completion = await openai.chat.completions.create({
+            messages: [{"role": "system", "content": "You are a helpful assistant. You will be Provided with an array of statement objects which will represent a conversation between a therapist and mental health patient . Please Provide a summarized report based on the conversation. "},
+                {"role": "user", "content": JSON.stringify(mergedAndSortedArray)}],
+            model: "gpt-3.5-turbo",
+          });
+          console.log(completion.choices[0].message.content);
+          reportGenerated = completion.choices[0];
+          console.log("Report: ",reportGenerated);
+        // const inputData = {
+        //     input: mergedAndSortedArray,
+        //     steps: [
+        //         {
+        //             skill: "summarize"
+        //         }
+        //     ]
+        //   };
+        //   fetch("https://api.oneai.com/api/v0/pipeline", {method:"POST", headers: {
+        //     "Content-Type": "application/json",
+        //     "api-key": "437f77b0-2e4b-4597-8e20-a87ffaf10762"
+        //   },body: JSON.stringify(inputData)})
+        //   .then(response => response.text())
+        //   .then(result => console.log("Ai Result:",result))
+        //   .catch(error => console.log('error', error));
+    }
+
+    const sendDataFunc = () => {
+        SpeechRecognition.stopListening();
+        if (peerIds.length > 0) {
+            sendData({to:peerIds, payload:JSON.stringify(completeTransscript)})
+            console.log("My Transcript:",completeTransscript);
+        }
     }
 
   return (    
@@ -145,10 +189,10 @@ const HuddleCom = () => {
         </div>
         <div className='flex justify-center mt-2'>
             <button className='bg-blue-600 text-slate-50 p-3' onClick={async () => {
-                let callToken = getAccessToken();
+                let callToken = getAccessToken(meetingLink);
                 let token = await callToken.toJwt();
               await joinRoom({
-                roomId: "pov-dmvx-cdm",
+                roomId: meetingLink,
                 token: token,
               });
               SpeechRecognition.startListening({language: "en_IN"});
@@ -191,14 +235,20 @@ const HuddleCom = () => {
                     await disableAudioFunc();
                 }}>Disable Audio</button>}
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
+                    sendDataFunc()
                     await leaveRoom()
                 }}>Leave Meeting</button>
                 <button className='p-3 bg-red-600 ml-2' onClick={async() => {
                     await closeRoom()
                 }}>End meeting for everyone</button>
+                
             </div>
-            {completeTransscript}
+            
+           
         </div>
+        <div className='flex m-10 p-8'>
+                <p>Report:<span>{reportGenerated.message.content}</span></p>
+                </div>
         </div>}
     </div>
   )

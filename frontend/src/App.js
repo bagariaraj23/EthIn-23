@@ -3,26 +3,21 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import routes from "./routes";
-import SupportComp from "./Components/pushSupp";
-// import Notif from "./Components/Notif";
-import { Navbar } from "../src/widgets/layout/navbar";
-import { HuddleProvider } from '@huddle01/react';
-import { HuddleClient } from '@huddle01/react';
+import { Nav } from "./widgets/layout/nav";
+import { HuddleProvider, HuddleClient } from '@huddle01/react';
 
 const router12 = createBrowserRouter(routes);
 
 const huddleClient = new HuddleClient({
-  projectId: "J1RSEMrgfCIItAuC4dvmOx18CuBmwg3P",
-  })
+  projectId: process.env.REACT_HUDDLE_PRIVATE_PROJECT_ID,
+});
 
 function App() {
   return (
     <>
-    <HuddleProvider client={huddleClient}>
-    <Navbar brandName="abc" router12 action />
-      <SupportComp />
-      <RouterProvider router={router12} />
-      {/* <Notif/> */}
+      <HuddleProvider client={huddleClient}>
+        <Nav/>
+        <RouterProvider router={router12} />
       </HuddleProvider>
     </>
   );
