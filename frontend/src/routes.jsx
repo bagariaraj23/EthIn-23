@@ -1,4 +1,5 @@
 import { Home, SignUp,Profile} from "./pages";
+import Dashboard from "../src/Dashboard/Dashboard"
 import SpeechRecognitionComponent from "./pages/audiodetection";
 import HuddleCom from "./pages/Huddle";
 import Blog from "./FindTherapist/Blog";

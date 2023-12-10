@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import routee from "../../routes";
 import {
   Navbar,
@@ -8,17 +8,29 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { MetaMaskButton } from "@metamask/sdk-react-ui";
- 
+
 export function Nav() {
+
   const [openNav, setOpenNav] = React.useState(false);
- 
+  // const [userAddress, setUserAddress] = useState(null);
+
+  // React.useEffect(() => {
+  //   // Check if ethereum is available
+  //   if (window.ethereum) {
+  //     // Get the current user's address
+  //     window.ethereum.request({ method: "eth_requestAccounts" })
+  //       .then((accounts) => setUserAddress(accounts[0]))
+  //       .catch((error) => console.error(error));
+  //   }
+  // }, []);
+  
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false),
     );
   }, []);
- 
+
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
@@ -109,7 +121,11 @@ export function Nav() {
         </Typography>
         <div className="hidden lg:block">{navList}</div>
         <div className="flex items-center gap-x-1">
-          <MetaMaskButton theme={"light"} color="white"></MetaMaskButton>
+          {/* {userAddress ? (
+            <button>Mint NFT</button>
+          ) : ( */}
+            <MetaMaskButton theme={"light"} color="white"></MetaMaskButton>
+          {/* )} */}
         </div>
         <IconButton
           variant="text"
@@ -149,19 +165,6 @@ export function Nav() {
           )}
         </IconButton>
       </div>
-      <MobileNav open={openNav}>
-        <div className="container mx-auto">
-          {navList}
-          <div className="flex items-center gap-x-1">
-            <Button fullWidth variant="text" size="sm" className="">
-              <span>Log In</span>
-            </Button>
-            <Button fullWidth variant="gradient" size="sm" className="">
-              <span>Sign in</span>
-            </Button>
-          </div>
-        </div>
-      </MobileNav>
     </Navbar>
   );
 }
