@@ -5,13 +5,18 @@ import {ethers} from 'ethers'
 const signer = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY_NOTIF);
 const healSuper = await PushAPI.initialize(signer, {env: CONSTANTS.ENV.STAGING});
 
-const sendNotification = async (Patient_Address, time_slot) => {
-    const sendNotif = await healSuper.channel.send([`${Patient_Address}`],{
-        notification:{
+const sendNotification = async (Patient_Address, time_slot, roomId) => {
+    const url = `localhost:3000/meeting/${roomId}`;
+    console.log(url);
+    await healSuper.channel.send([`${Patient_Address}`], {
+        notification: {
             title: "Therapy Scheduled",
-            body: `Your therapy session has been booked for the time slot : ${time_slot}. Please be sure to be on time. Thank you !!`
-        },
-    })
-    
-}
+            body: `Your therapy session has been booked for the time slot: ${time_slot}. Please be sure to be on time. Thank you !!`,
+            payload: {
+                url: url
+            }
+        }
+    });
+};
+
 export {sendNotification} ;
