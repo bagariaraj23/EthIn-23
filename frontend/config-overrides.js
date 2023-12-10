@@ -1,4 +1,4 @@
-
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const webpack = require('webpack');
 
 module.exports = function override(config, env) {
@@ -20,6 +20,7 @@ module.exports = function override(config, env) {
         stream: require.resolve("stream-browserify"),
     };
     config.resolve.extensions = [...config.resolve.extensions, ".ts", ".js"];
+
     config.plugins = [
         ...config.plugins,
         new webpack.ProvidePlugin({
@@ -27,6 +28,9 @@ module.exports = function override(config, env) {
             Buffer: ["buffer", "Buffer"],
         }),
     ];
+    config.plugins.push(new NodePolyfillPlugin({
+        excludeAliases: ["console"]
+    }))
     config.module.rules = [
         ...config.module.rules,
         {
